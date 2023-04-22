@@ -333,6 +333,168 @@ POST /managerop/getbook/bycategory
 |»» category|string|true|none||none|
 |»» isbn|string|true|none||none|
 
+## POST 添加书籍种类
+
+POST /managerop/addcategory
+
+> Body 请求参数
+
+```json
+{
+  "name": "science",
+  "pname": "teaching material"
+}
+```
+
+### 请求参数
+
+|名称|位置|类型|必选|说明|
+|---|---|---|---|---|
+|body|body|object| 否 |none|
+
+> 返回示例
+
+> 成功
+
+```json
+{
+  "status": true,
+  "op": "Add category",
+  "msg": {
+    "code": "104",
+    "content": "Add category [science] successfully!"
+  }
+}
+```
+
+### 返回结果
+
+|状态码|状态码含义|说明|数据模型|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+
+### 返回数据结构
+
+状态码 **200**
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|» status|boolean|true|none||none|
+|» op|string|true|none||none|
+|» msg|object|true|none||none|
+|»» code|string|true|none||none|
+|»» content|string|true|none||none|
+
+## POST 删除书籍种类
+
+POST /managerop/deletecategory
+
+> Body 请求参数
+
+```json
+{
+  "name": "science1"
+}
+```
+
+### 请求参数
+
+|名称|位置|类型|必选|说明|
+|---|---|---|---|---|
+|body|body|object| 否 |none|
+
+> 返回示例
+
+> 成功
+
+```json
+{
+  "status": true,
+  "op": "Delete category",
+  "msg": {
+    "code": "105",
+    "content": "Successfully deleted category [science1]."
+  }
+}
+```
+
+### 返回结果
+
+|状态码|状态码含义|说明|数据模型|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+
+### 返回数据结构
+
+状态码 **200**
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|» status|boolean|true|none||none|
+|» op|string|true|none||none|
+|» msg|object|true|none||none|
+|»» code|string|true|none||none|
+|»» content|string|true|none||none|
+
+## POST 添加书籍
+
+POST /managerop/addbook
+
+> Body 请求参数
+
+```json
+{
+  "ISBN": "111-1111",
+  "name": "haha",
+  "author": "zfh",
+  "publisher": "xdu",
+  "summer": "hehe",
+  "cover": "xxx.jpg",
+  "price": "100",
+  "stock": "10",
+  "category": "novel"
+}
+```
+
+### 请求参数
+
+|名称|位置|类型|必选|说明|
+|---|---|---|---|---|
+|body|body|object| 否 |none|
+
+> 返回示例
+
+> 成功
+
+```json
+{
+  "status": true,
+  "op": "Add book",
+  "msg": {
+    "code": "106",
+    "content": "Successfully added book!"
+  }
+}
+```
+
+### 返回结果
+
+|状态码|状态码含义|说明|数据模型|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+
+### 返回数据结构
+
+状态码 **200**
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|» status|boolean|true|none||none|
+|» op|string|true|none||none|
+|» msg|object|true|none||none|
+|»» code|string|true|none||none|
+|»» content|string|true|none||none|
+
 # 示例项目/user
 
 ## POST user登录

@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: root
+    password: zfhzfh123
+    url: jdbc:mysql://localhost:3306/library?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  main:
+    banner-mode: off  # stop printing logo in terminal
+
+mybatis-plus:
+  global-config:
+    banner: false  # stop printing logo in terminal

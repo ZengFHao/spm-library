@@ -13,6 +13,10 @@ public class AccountResponse extends Response{
         super(status, op, msg);
     }
 
+    public AccountResponse(boolean status, String op) {
+        super(status, op);
+    }
+
     public List<Account> getAccounts() {
         return accounts;
     }

@@ -3,19 +3,11 @@ package com.spread.libserver.doer.dofactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.spread.libserver.mapper.AccountMapper;
-import com.spread.libserver.mapper.BookMapper;
-import com.spread.libserver.mapper.BorrowMapper;
-import com.spread.libserver.mapper.CategoryMapper;
+import com.spread.libserver.mapper.*;
 import com.spread.libserver.model.constant.AccountType;
 import com.spread.libserver.model.constant.Op;
-import com.spread.libserver.model.dao.Account;
-import com.spread.libserver.model.dao.Book;
-import com.spread.libserver.model.dao.Borrow;
-import com.spread.libserver.model.dao.Category;
-import com.spread.libserver.model.network.BookResponse;
-import com.spread.libserver.model.network.CategoryResponse;
-import com.spread.libserver.model.network.Response;
+import com.spread.libserver.model.dao.*;
+import com.spread.libserver.model.network.*;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 
@@ -29,13 +21,15 @@ public class Operation {
     private static BookMapper bookMapper;
     private static AccountMapper accountMapper;
     private static BorrowMapper borrowMapper;
+    private static TokenMapper tokenMapper;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    public static void setAllMapper(CategoryMapper cm, BookMapper bm, AccountMapper am, BorrowMapper brm){
+    public static void setAllMapper(CategoryMapper cm, BookMapper bm, AccountMapper am, BorrowMapper brm, TokenMapper tm){
         categoryMapper = cm;
         bookMapper = bm;
         accountMapper = am;
         borrowMapper = brm;
+        tokenMapper = tm;
     }
 
     /**
@@ -88,15 +82,45 @@ public class Operation {
      *         we'll return a failure; return ok when account name and
      *         password is both correct.
      */
-    public static Response login(String acc, String pwd){
-        Response res = new Response(false, Op.LOGIN);
+//    public static Response login(String acc, String pwd){
+//        Response res = new Response(false, Op.LOGIN);
+//        LambdaQueryWrapper<Account> lqw = new LambdaQueryWrapper<>();
+//        lqw.eq(Account::getName, acc);
+//        Account a = accountMapper.selectOne(lqw);
+//        if(a != null){
+//            if(pwd.equals(a.getPassword())){
+//                res.setStatus(true);
+//                res.setMsg(Msg.Success.Login());
+//            }else{
+//                res.setMsg(Msg.Fail.WrongPassword(acc));
+//            }
+//        }else{  // Account doesn't exist.
+//            res.setMsg(Msg.Fail.AccountNotExist(acc));
+//        }
+//        return res;
+//    }
+    public static LoginResponse login(String acc, String pwd){
+        LoginResponse res = new LoginResponse(false, Op.LOGIN);
         LambdaQueryWrapper<Account> lqw = new LambdaQueryWrapper<>();
         lqw.eq(Account::getName, acc);
         Account a = accountMapper.selectOne(lqw);
+        int type = a.getType();
         if(a != null){
             if(pwd.equals(a.getPassword())){
+                res.setToken(UUID.randomUUID().toString());
+                LambdaQueryWrapper<Token> tqw = new LambdaQueryWrapper<>();
+                tqw.eq(Token::getAccount, acc);
+                Token token = tokenMapper.selectOne(tqw);
+                if(token != null){
+                    res.setToken(token.getToken_info());
+                }else {
+                    String newToken = UUID.randomUUID().toString();
+                    tokenMapper.insert(new Token(acc,newToken));
+                    res.setToken(newToken);
+                }
                 res.setStatus(true);
-                res.setMsg(Msg.Success.Login());
+                res.setUserType(type);
+                res.setMsg(Msg.Success.Login(type));
             }else{
                 res.setMsg(Msg.Fail.WrongPassword(acc));
             }
@@ -562,5 +586,29 @@ public class Operation {
         return list;
     }
 
+    /**
+     * 解析token获取用户信息
+     */
+    public static AccountResponse getStatues(String token){
+        AccountResponse res = new AccountResponse(false, Op.GET_ACCOUNT);
+        LambdaQueryWrapper<Token> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(Token::getToken_info,token);
+        Token token1 =tokenMapper.selectOne(lqw);
+        String name =token1.getAccount();
+        if(token1 != null){
+            LambdaQueryWrapper<Account> lqw1 = new LambdaQueryWrapper<>();
+            lqw1.eq(Account::getName , name);
+            List<Account> list = accountMapper.selectList(lqw1);
+            Account account = list.get(0);
+            account.setPassword("");
+            list.set(0,account);
+            res.setAccounts(list);
+            res.setStatus(true);
+            res.setMsg(Msg.Success.getUserStatus());
+        }else {
+            res.setMsg(Msg.Fail.noToken());
+        }
+        return res;
+    }
 
 }

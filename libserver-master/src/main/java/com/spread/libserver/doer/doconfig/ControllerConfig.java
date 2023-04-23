@@ -1,10 +1,7 @@
 package com.spread.libserver.doer.doconfig;
 
 import com.spread.libserver.doer.dofactory.Operation;
-import com.spread.libserver.mapper.AccountMapper;
-import com.spread.libserver.mapper.BookMapper;
-import com.spread.libserver.mapper.BorrowMapper;
-import com.spread.libserver.mapper.CategoryMapper;
+import com.spread.libserver.mapper.*;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -15,7 +12,8 @@ public class ControllerConfig {
     public ControllerConfig(BookMapper bookMapper,
                             AccountMapper accountMapper,
                             CategoryMapper categoryMapper,
-                            BorrowMapper borrowMapper) {
-        Operation.setAllMapper(categoryMapper, bookMapper, accountMapper, borrowMapper);
+                            BorrowMapper borrowMapper,
+                            TokenMapper tokenMapper) {
+        Operation.setAllMapper(categoryMapper, bookMapper, accountMapper, borrowMapper, tokenMapper);
     }
 }

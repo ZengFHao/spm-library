@@ -13,56 +13,59 @@ public class Msg {
         return String.format("(%s)", str);
     }
 
-    public static class Success{
-        public static Message Register(){
+    public static class Success {
+        public static Message Register() {
             return new Message("100", "Register successfully!");
         }
 
-        public static Message Login(){
+        public static Message Login(int type) {
             return new Message("101", "Login successfully!");
         }
 
-        public static Message ChangePassword(){
+        public static Message ChangePassword() {
             return new Message("102", "Changed successfully!");
         }
 
-        public static Message GetAllCategories(){
+        public static Message GetAllCategories() {
             return new Message("103", "Successfully get all categories!");
         }
 
-        public static Message AddCategory(String name){
+        public static Message AddCategory(String name) {
             return new Message("104", "Add category " + squareBracket(name) + " successfully!");
         }
 
-        public static Message DeleteCategory(String name){
+        public static Message DeleteCategory(String name) {
             return new Message("105", "Successfully deleted category " + squareBracket(name) + ".");
         }
 
-        public static Message AddBook(){
+        public static Message AddBook() {
             return new Message("106", "Successfully added book!");
         }
 
-        public static Message DeleteBook(){
+        public static Message DeleteBook() {
             return new Message("107", "Successfully deleted book!");
         }
 
-        public static Message UpdateBook(){
+        public static Message UpdateBook() {
             return new Message("108", "Update successfully!");
         }
 
-        public static Message GetBook(){
+        public static Message GetBook() {
             return new Message("109", "Get book successfully!");
         }
 
-        public static Message BorrowBook(){
+        public static Message BorrowBook() {
             return new Message("110", "Borrow book successfully!");
         }
 
-        public static Message ReturnBook(){
+        public static Message ReturnBook() {
             return new Message("111", "Return book successfully!");
         }
-    }
 
+        public static Message getUserStatus() {
+            return new Message("112", "Get user status successfully!");
+        }
+    }
     public static class Fail{
         public static Message ISE(){
             return new Message("000", "Internal-server error.");
@@ -161,6 +164,9 @@ public class Msg {
         }
         public static Message wrongOldPswd(){
             return new Message("024","Old password is wrong");
+        }
+        public static Message noToken(){
+            return new Message("025","No this token");
         }
     }
 }

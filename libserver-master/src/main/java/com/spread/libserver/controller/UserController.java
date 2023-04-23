@@ -4,6 +4,7 @@ import com.spread.libserver.doer.dofactory.Operation;
 import com.spread.libserver.model.constant.AccountType;
 import com.spread.libserver.model.network.BookResponse;
 import com.spread.libserver.model.network.CategoryResponse;
+import com.spread.libserver.model.network.LoginResponse;
 import com.spread.libserver.model.network.Response;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -76,9 +77,9 @@ public class UserController {
 
 
     @PostMapping("userop/login")
-    public Response loginUser(@RequestParam("account") String acc,
-                              @RequestParam("password") String pwd,
-                              @RequestParam("type") int type
+    public LoginResponse loginUser(@RequestParam("account") String acc,
+                                            @RequestParam("password") String pwd,
+                                            @RequestParam("type") int type
                              ){
         return Operation.login(acc, pwd);
     }

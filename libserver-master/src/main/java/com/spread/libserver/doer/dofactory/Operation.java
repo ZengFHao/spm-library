@@ -630,9 +630,9 @@ public class Operation {
         }
         return res;
     }
-    public static BoInfoResponse booKBorrowInfo(String name ,int page, int num){
+    public static BoInfoResponse booKBorrowInfo(String name ,String date1,int date2, int page, int num){
         BoInfoResponse res = new BoInfoResponse(false,Op.GET_BORROWINFO);
-        List<BookVo> list = borrowMapper.bookList1(new Page<>(page,num),name);
+        List<BookVo> list = borrowMapper.bookList1(new Page<>(page,num),name,date1,date2);
         if(list.size() != 0){
             res.setInfoList(list);
             res.setStatus(true);
@@ -642,4 +642,5 @@ public class Operation {
         }
         return res;
     }
+
 }

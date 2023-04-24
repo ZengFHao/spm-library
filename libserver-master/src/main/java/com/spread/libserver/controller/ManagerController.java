@@ -183,10 +183,22 @@ public class ManagerController {
     public BoInfoResponse boInfoResponse(@RequestBody String json){
         List list = Operation.jToV(json);
         String name =list.get(0).toString();
-        int page = Integer.parseInt(list.get(1).toString());
-        int num = Integer.parseInt(list.get(2).toString());
-        return Operation.booKBorrowInfo(name,page, num);
+        String date1 = list.get(1).toString();
+        int date2 = Integer.parseInt(list.get(2).toString());
+        int page = Integer.parseInt(list.get(3).toString());
+        int num = Integer.parseInt(list.get(4).toString());
+        return Operation.booKBorrowInfo(name,date1,date2,page, num);
     }
+
+//    @PostMapping("bookIBorrowInfoByTime")
+//    public BoInfoResponse boInfoResponse(@RequestBody String json) {
+//        List list = Operation.jToV(json);
+//        String date1 = list.get(0).toString();
+//        int date2 = Integer.parseInt(list.get(1).toString());
+//        int page = Integer.parseInt(list.get(2).toString());
+//        int num = Integer.parseInt(list.get(3).toString());
+//        return Operation.booKBorrowInfo(date1,date2,page, num);
+//    }
     @Transactional
     @PostMapping("return")
     public Response returnBook(@RequestBody String json){

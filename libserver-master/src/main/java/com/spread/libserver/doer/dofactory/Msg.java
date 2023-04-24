@@ -173,7 +173,7 @@ public class Msg {
             return new Message("025","No this token");
         }
         public static Message noBorrowBookId(){
-            return new Message("026","No this borrow book id");
+            return new Message("026","No this borrow book detail");
         }
     }
 }

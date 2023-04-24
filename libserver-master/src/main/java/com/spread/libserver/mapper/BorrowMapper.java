@@ -20,8 +20,11 @@ public interface BorrowMapper extends BaseMapper<Borrow> {
     @Select("select b.book_isbn, b.book_name, b.book_author, bo.borrow_account, bo.borrow_time , bo.borrow_duration , bo.borrow_is_over_time " +
             "from book b , borrow bo where b.book_id = bo.borrow_book_id ")
     List<BookVo> bookList (Page page);
+//    @Select("select b.book_isbn, b.book_name, b.book_author, bo.borrow_account, bo.borrow_time , bo.borrow_duration , bo.borrow_is_over_time " +
+//            "from book b , borrow bo where b.book_id = bo.borrow_book_id and b.book_name = #{name}")
+//    List<BookVo> bookList1 (Page page,String name);
     @Select("select b.book_isbn, b.book_name, b.book_author, bo.borrow_account, bo.borrow_time , bo.borrow_duration , bo.borrow_is_over_time " +
-            "from book b , borrow bo where b.book_id = bo.borrow_book_id and b.book_name = #{name}")
-    List<BookVo> bookList1 (Page page,String name);
+            "from book b , borrow bo where b.book_id = bo.borrow_book_id and b.book_name = #{name} and bo.borrow_time = #{date1} and bo.borrow_duration = #{date2}")
+    List<BookVo> bookList1 (Page page,String name,String date1, int date2);
 }
 

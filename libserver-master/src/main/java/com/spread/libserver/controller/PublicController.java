@@ -12,9 +12,12 @@ import java.util.List;
 
 @RestController
 public class PublicController {
-    @GetMapping("getallcat")
-    public CategoryResponse getAllCategoriesManager(){
-        return Operation.getAllCategories();
+    @PostMapping("getallcat")
+    public CategoryResponse getAllCategoriesManager(@RequestBody String json){
+        List list = Operation.jToV(json);
+        int page = Integer.parseInt(list.get(0).toString());
+        int num = Integer.parseInt(list.get(1).toString());
+        return Operation.getAllCategories(page , num);
     }
 
     @PostMapping("login")

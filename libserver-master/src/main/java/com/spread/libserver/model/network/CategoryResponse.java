@@ -7,6 +7,25 @@ import java.util.List;
 
 public class CategoryResponse extends Response{
 
+    private int pageNum;
+    private int numEachPage;
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getNumEachPage() {
+        return numEachPage;
+    }
+
+    public void setNumEachPage(int numEachPage) {
+        this.numEachPage = numEachPage;
+    }
+
     private List<Category> categories;
 
     public CategoryResponse(boolean status, String op, Message msg) {

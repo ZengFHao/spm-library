@@ -10,3 +10,7 @@ spring:
 mybatis-plus:
   global-config:
     banner: false  # stop printing logo in terminal
+
+
+  configuration:
+    log-impl: org.apache.ibatis.logging.commons.JakartaCommonsLoggingImpl

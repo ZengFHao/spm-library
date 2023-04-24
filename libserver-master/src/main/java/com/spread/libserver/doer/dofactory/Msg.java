@@ -65,6 +65,10 @@ public class Msg {
         public static Message getUserStatus() {
             return new Message("112", "Get user status successfully!");
         }
+        public static Message getBorrowInfo() {
+            return new Message("112", "Get borrowInfo successfully!");
+        }
+
     }
     public static class Fail{
         public static Message ISE(){
@@ -167,6 +171,9 @@ public class Msg {
         }
         public static Message noToken(){
             return new Message("025","No this token");
+        }
+        public static Message noBorrowBookId(){
+            return new Message("026","No this borrow book id");
         }
     }
 }

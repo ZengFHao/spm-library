@@ -34,6 +34,7 @@ public class Book {
     @TableField("book_category_name")
     private String category;
 
+
     /**
      * Without this, error will occur when call "bookMapper.selectOne()":
      *      Cannot determine value type from string 'haha.png'

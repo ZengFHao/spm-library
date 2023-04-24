@@ -1,14 +1,14 @@
 package com.spread.libserver.model.network;
 
+import com.spread.libserver.mapper.Vo.BookVo;
 import com.spread.libserver.model.constant.Message;
-import com.spread.libserver.model.dao.Book;
+import com.spread.libserver.model.dao.BoInfo;
 
 import java.util.List;
 
-public class BookResponse extends Response{
+public class BoInfoResponse extends Response{
     private int pageNum;
     private int numEachPage;
-    private List<Book> books;
 
     public int getPageNum() {
         return pageNum;
@@ -26,19 +26,25 @@ public class BookResponse extends Response{
         this.numEachPage = numEachPage;
     }
 
-    public BookResponse(boolean status, String op, Message msg) {
+    private List<BookVo> InfoList;
+
+    public BoInfoResponse(boolean status) {
+        super(status);
+    }
+
+    public BoInfoResponse(boolean status, String op, Message msg) {
         super(status, op, msg);
     }
 
-    public BookResponse(boolean status, String op) {
+    public BoInfoResponse(boolean status, String op) {
         super(status, op);
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<BookVo> getInfoList() {
+        return InfoList;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setInfoList(List<BookVo> infoList) {
+        InfoList = infoList;
     }
 }

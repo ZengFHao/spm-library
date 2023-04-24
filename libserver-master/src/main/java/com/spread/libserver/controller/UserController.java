@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("userop/getbook/byname")
-    public BookResponse getBookByNameManager(@RequestBody String json){
+    public BookResponse getBookByNameUser(@RequestBody String json){
         List list = Operation.jToV(json);
         String name = list.get(0).toString();
         return Operation.getBookByName(name);

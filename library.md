@@ -29,7 +29,7 @@ Base URLs:
 
 # 示例项目/manager
 
-## POST 借书
+## POST 借书信息
 
 POST /managerop/bookBorrowInfo
 
@@ -38,10 +38,8 @@ POST /managerop/bookBorrowInfo
 ```json
 {
   "id": "1",
-  "name": "test",
-  "isbn": "978-12345",
-  "date": "10",
-  "account": "zengfanhao"
+  "page": "1",
+  "num": "1"
 }
 ```
 
@@ -58,11 +56,49 @@ POST /managerop/bookBorrowInfo
 ```json
 {
   "status": true,
-  "op": "Borrow book",
+  "op": "Get borrow info",
   "msg": {
-    "code": "110",
-    "content": "Borrow book successfully!"
-  }
+    "code": "112",
+    "content": "Get borrowInfo successfully!"
+  },
+  "list": [
+    {
+      "bookIsbn": "978-12345",
+      "bookName": "test",
+      "bookAuthor": "spread",
+      "borrowAccount": "zengfanhao",
+      "borrowTime": "2023-04-20 08:47:28",
+      "borrowDuration": 10,
+      "borrowIsOverTime": 0
+    },
+    {
+      "bookIsbn": "978-12345",
+      "bookName": "test",
+      "bookAuthor": "spread",
+      "borrowAccount": "zengfanhao",
+      "borrowTime": "2023-04-20 08:48:57",
+      "borrowDuration": 10,
+      "borrowIsOverTime": 0
+    },
+    {
+      "bookIsbn": "978-12345",
+      "bookName": "test",
+      "bookAuthor": "spread",
+      "borrowAccount": "zengfanhao",
+      "borrowTime": "2023-04-20 08:48:16",
+      "borrowDuration": 10,
+      "borrowIsOverTime": 0
+    },
+    {
+      "bookIsbn": "978-12345",
+      "bookName": "test",
+      "bookAuthor": "spread",
+      "borrowAccount": "zengfanhao",
+      "borrowTime": "2023-04-20 04:32:23",
+      "borrowDuration": 10,
+      "borrowIsOverTime": 0
+    }
+  ]
 }
 ```
 
@@ -83,6 +119,14 @@ POST /managerop/bookBorrowInfo
 |» msg|object|true|none||none|
 |»» code|string|true|none||none|
 |»» content|string|true|none||none|
+|» list|[object]|true|none||none|
+|»» bookIsbn|string|true|none||none|
+|»» bookName|string|true|none||none|
+|»» bookAuthor|string|true|none||none|
+|»» borrowAccount|string|true|none||none|
+|»» borrowTime|string|true|none||none|
+|»» borrowDuration|integer|true|none||none|
+|»» borrowIsOverTime|integer|true|none||none|
 
 ## POST admin登录
 
@@ -609,15 +653,24 @@ newpswd: zfh1
 
 # 示例项目/Public
 
-## GET 获取所有书籍种类
+## POST 获取所有书籍种类
 
-GET /managerop/getallcat
+POST /getallcat
+
+> Body 请求参数
+
+```json
+{
+  "page": "2",
+  "num": "3"
+}
+```
 
 ### 请求参数
 
 |名称|位置|类型|必选|说明|
 |---|---|---|---|---|
-|ddasdasd|query|string| 否 |sadasdasd|
+|body|body|object| 否 |none|
 
 > 返回示例
 
@@ -704,7 +757,7 @@ POST /login
 ```json
 {
   "account": "zhaozhao",
-  "password": "zfh1"
+  "password": "zfh"
 }
 ```
 
@@ -748,6 +801,60 @@ POST /login
 |» msg|object|true|none||none|
 |»» code|string|true|none||none|
 |»» content|string|true|none||none|
+
+## POST 通过token登录
+
+POST /getstatus
+
+### 请求参数
+
+|名称|位置|类型|必选|说明|
+|---|---|---|---|---|
+|token|header|string| 否 |none|
+
+> 返回示例
+
+> 成功
+
+```json
+{
+  "status": true,
+  "op": "Get account status",
+  "msg": {
+    "code": "112",
+    "content": "Get user status successfully!"
+  },
+  "accounts": [
+    {
+      "name": "zhaozhao",
+      "password": "zfh",
+      "type": 2
+    }
+  ]
+}
+```
+
+### 返回结果
+
+|状态码|状态码含义|说明|数据模型|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功|Inline|
+
+### 返回数据结构
+
+状态码 **200**
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|» status|boolean|true|none||none|
+|» op|string|true|none||none|
+|» msg|object|true|none||none|
+|»» code|string|true|none||none|
+|»» content|string|true|none||none|
+|» accounts|[object]|true|none||none|
+|»» name|string|false|none||none|
+|»» password|string|false|none||none|
+|»» type|integer|false|none||none|
 
 # 数据模型
 

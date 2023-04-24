@@ -1,14 +1,19 @@
 package com.spread.libserver.controller;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.spread.libserver.doer.dofactory.Operation;
+import com.spread.libserver.mapper.Vo.BookVo;
 import com.spread.libserver.model.constant.AccountType;
 import com.spread.libserver.model.dao.Book;
+import com.spread.libserver.model.network.BoInfoResponse;
 import com.spread.libserver.model.network.BookResponse;
 import com.spread.libserver.model.network.CategoryResponse;
 import com.spread.libserver.model.network.Response;
 
+import jakarta.annotation.Resource;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -152,7 +157,7 @@ public class ManagerController {
 //                                   ){
 //        return Operation.borrowBook(id, name, isbn, dates, uName);
 //    }
-    @PostMapping("bookBorrowInfo")
+    @PostMapping("bookBorrow")
     public Response bookBorrow(@RequestBody String json){
         List list = Operation.jToV(json);
         int id = Integer.parseInt(list.get(0).toString());
@@ -164,12 +169,15 @@ public class ManagerController {
     }
 
 
-//    @PostMapping("changepassword")
-//    public Response changePasswordUser(@RequestParam("account") String acc,
-//                                       @RequestParam("target") String targetAcc,
-//                                       @RequestParam("newpswd") String newPassword){
-//        return Operation.changePassword(acc, targetAcc, newPassword, AccountType.MANAGER);
-//    }
+    @PostMapping("bookBorrowInfo")
+    public BoInfoResponse boInfoResponse(@RequestBody String json){
+        List list = Operation.jToV(json);
+        int id =Integer.parseInt(list.get(0).toString());
+        int page = Integer.parseInt(list.get(1).toString());
+        int num = Integer.parseInt(list.get(2).toString());
+        return Operation.booKBorrowInfo(id, page, num);
+    }
+
 
 
 

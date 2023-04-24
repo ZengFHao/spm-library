@@ -18,4 +18,5 @@ public class Op {
     public final static String BORROW_BOOK = "Borrow book";
     public final static String RETURN_BOOK = "Return book";
     public final static String GET_ACCOUNT = "Get account status";
+    public final static String GET_BORROWINFO = "Get borrow info";
 }

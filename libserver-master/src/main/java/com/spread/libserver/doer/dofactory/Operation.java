@@ -3,13 +3,18 @@ package com.spread.libserver.doer.dofactory;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.spread.libserver.mapper.*;
+import com.spread.libserver.mapper.Vo.BookVo;
 import com.spread.libserver.model.constant.AccountType;
 import com.spread.libserver.model.constant.Op;
 import com.spread.libserver.model.dao.*;
 import com.spread.libserver.model.network.*;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -227,8 +232,9 @@ public class Operation {
         return res;
     }
 
-    public static CategoryResponse getAllCategories(){
-        List<Category> list = categoryMapper.selectList(null);
+    public static CategoryResponse getAllCategories(int page, int num){
+        IPage iPage = new Page(page,num);
+        List<Category> list = categoryMapper.selectPage(iPage,null).getRecords();
         CategoryResponse res = new CategoryResponse(false, Op.GET_ALL_CATEGORIES);
         if(!list.isEmpty()){
             res.setCategories(list);
@@ -594,8 +600,9 @@ public class Operation {
         LambdaQueryWrapper<Token> lqw = new LambdaQueryWrapper<>();
         lqw.eq(Token::getToken_info,token);
         Token token1 =tokenMapper.selectOne(lqw);
-        String name =token1.getAccount();
+//        String name =token1.getAccount();
         if(token1 != null){
+            String name =token1.getAccount();
             LambdaQueryWrapper<Account> lqw1 = new LambdaQueryWrapper<>();
             lqw1.eq(Account::getName , name);
             List<Account> list = accountMapper.selectList(lqw1);
@@ -611,4 +618,16 @@ public class Operation {
         return res;
     }
 
+    public static BoInfoResponse booKBorrowInfo(int id, int page, int num){
+        BoInfoResponse res = new BoInfoResponse(false,Op.GET_BORROWINFO);
+        List<BookVo> list = borrowMapper.bookList(new Page<>(page,num) , id);
+        if(list.size() != 0){
+            res.setInfoList(list);
+            res.setStatus(true);
+            res.setMsg(Msg.Success.getBorrowInfo());
+        }else{
+            res.setMsg(Msg.Fail.noBorrowBookId());
+        }
+        return res;
+    }
 }

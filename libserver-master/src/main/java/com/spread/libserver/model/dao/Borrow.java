@@ -45,6 +45,9 @@ public class Borrow {
 //
 //    }
 
+    public Borrow (){
+
+    }
     public Borrow(String time, int bookId, int duration, boolean isOverTime, float fine, String account) {
         this.time = time;
         this.bookId = bookId;
@@ -53,7 +56,6 @@ public class Borrow {
         this.fine = fine;
         this.account = account;
     }
-
     public Integer getId() {
         return id;
     }

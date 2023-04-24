@@ -438,10 +438,17 @@ public class Operation {
 
     public static BookResponse getBookByName(String name,String isbn,String author,int page,boolean ready){
         BookResponse res = new BookResponse(false, Op.GET_BOOK_NAME);
-//        LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
-//        l.like(Book::getName, name); // %category%, such as "ma -> math"
-//        List<Book> bks = bookMapper.selectList(l);
-        List<Book> bks = bookMapper.bookList(new Page<>(page,5),name,isbn,author);
+        List<Book> bks = new ArrayList<>();
+        if(name == "" && isbn == "" && author == ""){
+            LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
+            l.like(Book::getBookName, name); // %category%, such as "ma -> math"
+            bks = bookMapper.selectList(l);
+            System.out.println("aaaaaaaaaaaaaaa");
+        }else{
+            bks = bookMapper.bookList(new Page<>(page,5),name,isbn,author);
+            System.out.println(name);
+        }
+
         res.setBooks(bks);
         if(bks.isEmpty()){
             res.setMsg(Msg.Fail.NoBookName(name));

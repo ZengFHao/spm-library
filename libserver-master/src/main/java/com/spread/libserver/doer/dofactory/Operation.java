@@ -442,8 +442,7 @@ public class Operation {
         if(name == "" && isbn == "" && author == ""){
             LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
             l.like(Book::getBookName, name); // %category%, such as "ma -> math"
-            bks = bookMapper.selectList(l);
-            System.out.println("aaaaaaaaaaaaaaa");
+            bks = bookMapper.selectPage(new Page<>(page,5),l).getRecords();
         }else{
             bks = bookMapper.bookList(new Page<>(page,5),name,isbn,author);
             System.out.println(name);

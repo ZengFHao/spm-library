@@ -61,17 +61,17 @@ public class UserController {
 //        return Operation.borrowBook(id, duration, fine, account);
 //    }
 
-    @Transactional
-    @PostMapping("userop/return")
-    public Response returnBook(@RequestBody String json){
-        List list = Operation.jToV(json);
-        int bookId = Integer.parseInt(list.get(0).toString());
-        Boolean isDamaged = Boolean.parseBoolean(list.get(1).toString());
-        String account = list.get(2).toString();
-        int borrowId = Integer.parseInt(list.get(3).toString());
-
-        return Operation.returnBook(bookId, isDamaged, account, borrowId);
-    }
+//    @Transactional
+//    @PostMapping("userop/return")
+//    public Response returnBook(@RequestBody String json){
+//        List list = Operation.jToV(json);
+//        int bookId = Integer.parseInt(list.get(0).toString());
+//        Boolean isDamaged = Boolean.parseBoolean(list.get(1).toString());
+//        String account = list.get(2).toString();
+//        int borrowId = Integer.parseInt(list.get(3).toString());
+//
+//        return Operation.returnBook(bookId, isDamaged, account, borrowId);
+//    }
 
     //**********************************************************************************************
 

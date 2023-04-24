@@ -14,6 +14,7 @@ import jakarta.annotation.Resource;
 import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -178,7 +179,17 @@ public class ManagerController {
         return Operation.booKBorrowInfo(id, page, num);
     }
 
+    @Transactional
+    @PostMapping("return")
+    public Response returnBook(@RequestBody String json){
+        List list = Operation.jToV(json);
+        int bookId = Integer.parseInt(list.get(0).toString());
+        Boolean isDamaged = Boolean.parseBoolean(list.get(1).toString());
+        String account = list.get(2).toString();
+        int borrowId = Integer.parseInt(list.get(3).toString());
 
+        return Operation.returnBook(bookId, isDamaged, account, borrowId);
+    }
 
 
 }

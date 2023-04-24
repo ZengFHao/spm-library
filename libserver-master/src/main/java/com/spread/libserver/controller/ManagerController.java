@@ -170,15 +170,23 @@ public class ManagerController {
     }
 
 
+    @PostMapping("bookAllBorrowInfo")
+    public BoInfoResponse boAllInfoResponse(@RequestBody String json){
+        List list = Operation.jToV(json);
+        //int id =Integer.parseInt(list.get(0).toString());
+        int page = Integer.parseInt(list.get(0).toString());
+        int num = Integer.parseInt(list.get(1).toString());
+        return Operation.booKBorrowInfo(page, num);
+    }
+
     @PostMapping("bookBorrowInfo")
     public BoInfoResponse boInfoResponse(@RequestBody String json){
         List list = Operation.jToV(json);
-        int id =Integer.parseInt(list.get(0).toString());
+        String name =list.get(0).toString();
         int page = Integer.parseInt(list.get(1).toString());
         int num = Integer.parseInt(list.get(2).toString());
-        return Operation.booKBorrowInfo(id, page, num);
+        return Operation.booKBorrowInfo(name,page, num);
     }
-
     @Transactional
     @PostMapping("return")
     public Response returnBook(@RequestBody String json){
@@ -190,6 +198,7 @@ public class ManagerController {
 
         return Operation.returnBook(bookId, isDamaged, account, borrowId);
     }
+
 
 
 }

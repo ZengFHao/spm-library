@@ -618,9 +618,21 @@ public class Operation {
         return res;
     }
 
-    public static BoInfoResponse booKBorrowInfo(int id, int page, int num){
+    public static BoInfoResponse booKBorrowInfo(int page, int num){
         BoInfoResponse res = new BoInfoResponse(false,Op.GET_BORROWINFO);
-        List<BookVo> list = borrowMapper.bookList(new Page<>(page,num) , id);
+        List<BookVo> list = borrowMapper.bookList(new Page<>(page,num));
+        if(list.size() != 0){
+            res.setInfoList(list);
+            res.setStatus(true);
+            res.setMsg(Msg.Success.getBorrowInfo());
+        }else{
+            res.setMsg(Msg.Fail.noBorrowBookId());
+        }
+        return res;
+    }
+    public static BoInfoResponse booKBorrowInfo(String name ,int page, int num){
+        BoInfoResponse res = new BoInfoResponse(false,Op.GET_BORROWINFO);
+        List<BookVo> list = borrowMapper.bookList1(new Page<>(page,num),name);
         if(list.size() != 0){
             res.setInfoList(list);
             res.setStatus(true);

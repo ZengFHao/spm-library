@@ -102,8 +102,13 @@ public class ManagerController {
     public BookResponse getBookByNameManager(@RequestBody String json){
         List list = Operation.jToV(json);
         String name = list.get(0).toString();
-        return Operation.getBookByName(name);
+        String isbn = list.get(1).toString();
+        String author = list.get(2).toString();
+        int page = Integer.parseInt(list.get(3).toString());
+        boolean ready = Boolean.parseBoolean(list.get(4).toString());
+        return Operation.getBookByName(name,isbn,author,page,ready);
     }
+
 
     @PostMapping("updatebook")
     public Response updateBook(@RequestBody String json){

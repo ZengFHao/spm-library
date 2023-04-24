@@ -5,34 +5,34 @@ import com.baomidou.mybatisplus.annotation.*;
 @TableName("book")
 public class Book {
     @TableId("book_id")
-    private int id;
+    private int bookId;
 
     @TableField("book_isbn")
-    private String ISBN;
+    private String bookIsbn;
 
     @TableField("book_name")
-    private String name;
+    private String bookName;
 
     @TableField("book_author")
-    private String author;
+    private String bookAuthor;
 
     @TableField("book_publisher")
-    private String pulisher;
+    private String bookPublisher;
 
     @TableField("book_summary")
-    private String summary;
+    private String bookSummary;
 
     @TableField("book_cover")
-    private String cover;
+    private String bookCover;
 
     @TableField(value = "book_price")
-    private float price;
+    private float bookPrice;
 
     @TableField("book_stock")
-    private int stock;
+    private int bookStock;
 
     @TableField("book_category_name")
-    private String category;
+    private String bookCategoryName;
 
 
     /**
@@ -45,126 +45,109 @@ public class Book {
 
     }
 
-    public Book(String ISBN, String name, String author,
-                String pulisher, String summary, String cover,
-                float price, int stock, String category) {
-        this.ISBN = ISBN;
-        this.name = name;
-        this.author = author;
-        this.pulisher = pulisher;
-        this.summary = summary;
-        this.cover = cover;
-        this.price = price;
-        this.stock = stock;
-        this.category = category;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", ISBN='" + ISBN + '\'' +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", pulisher='" + pulisher + '\'' +
-                ", summary='" + summary + '\'' +
-                ", cover='" + cover + '\'' +
-                ", price=" + price +
-                ", stock=" + stock +
-                ", category='" + category + '\'' +
-                '}';
+    public Book(String bookIsbn, String bookName, String bookAuthor, String bookPublisher, String bookSummary,
+                String bookCover, float bookPrice, int bookStock, String bookCategoryName) {
+        this.bookIsbn = bookIsbn;
+        this.bookName = bookName;
+        this.bookAuthor = bookAuthor;
+        this.bookPublisher = bookPublisher;
+        this.bookSummary = bookSummary;
+        this.bookCover = bookCover;
+        this.bookPrice = bookPrice;
+        this.bookStock = bookStock;
+        this.bookCategoryName = bookCategoryName;
     }
 
     public boolean beBorrowed(){
-        if(stock > 0){
-            --this.stock;
+        if(bookStock > 0){
+            --this.bookStock;
             return true;
         }
         return false;
     }
 
     public boolean beReturned(){
-        ++this.stock;
+        ++this.bookStock;
         return true;
     }
 
-    public int getId() {
-        return id;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getBookIsbn() {
+        return bookIsbn;
     }
 
-    public void setISBN(String ISBN) {
-        this.ISBN = ISBN;
+    public void setBookIsbn(String bookIsbn) {
+        this.bookIsbn = bookIsbn;
     }
 
-    public String getName() {
-        return name;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getBookAuthor() {
+        return bookAuthor;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setBookAuthor(String bookAuthor) {
+        this.bookAuthor = bookAuthor;
     }
 
-    public String getPulisher() {
-        return pulisher;
+    public String getBookPublisher() {
+        return bookPublisher;
     }
 
-    public void setPulisher(String pulisher) {
-        this.pulisher = pulisher;
+    public void setBookPublisher(String bookPublisher) {
+        this.bookPublisher = bookPublisher;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getBookSummary() {
+        return bookSummary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setBookSummary(String bookSummary) {
+        this.bookSummary = bookSummary;
     }
 
-    public String getCover() {
-        return cover;
+    public String getBookCover() {
+        return bookCover;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setBookCover(String bookCover) {
+        this.bookCover = bookCover;
     }
 
-    public float getPrice() {
-        return price;
+    public float getBookPrice() {
+        return bookPrice;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setBookPrice(float bookPrice) {
+        this.bookPrice = bookPrice;
     }
 
-    public int getStock() {
-        return stock;
+    public int getBookStock() {
+        return bookStock;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setBookStock(int bookStock) {
+        this.bookStock = bookStock;
     }
 
-    public String getCategory() {
-        return category;
+    public String getBookCategoryName() {
+        return bookCategoryName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setBookCategoryName(String bookCategoryName) {
+        this.bookCategoryName = bookCategoryName;
     }
 }

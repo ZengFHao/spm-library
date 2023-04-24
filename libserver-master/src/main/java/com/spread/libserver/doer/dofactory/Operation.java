@@ -27,7 +27,7 @@ public class Operation {
     private static AccountMapper accountMapper;
     private static BorrowMapper borrowMapper;
     private static TokenMapper tokenMapper;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void setAllMapper(CategoryMapper cm, BookMapper bm, AccountMapper am, BorrowMapper brm, TokenMapper tm){
         categoryMapper = cm;
@@ -351,9 +351,9 @@ public class Operation {
                                    String category){
         Response res = new Response(false, Op.ADD_BOOK);
         LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
-        l.eq(Book::getISBN, ISBN);
+        l.eq(Book::getBookIsbn, ISBN);
 
-        if(null != bookMapper.selectOne(l)){ // if not null, means book has existed.
+        if(null != bookMapper.selectList(l)){ // if not null, means book has existed.
             res.setMsg(Msg.Fail.BookExisted(ISBN));
             return res;
         }
@@ -378,7 +378,7 @@ public class Operation {
         bookMapper.insert(new Book(ISBN, name, author, publisher,
                 summary, cover, price, stock, category));
 
-        if(bookMapper.selectOne(l) != null){ // insert successfully
+        if(bookMapper.selectList(l) != null){ // insert successfully
             res.setStatus(true);
             res.setMsg(Msg.Success.AddBook());
         }else{
@@ -390,7 +390,7 @@ public class Operation {
 
     public static Response deleteBook(String ISBN){
         LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
-        l.eq(Book::getISBN, ISBN);
+        l.eq(Book::getBookIsbn, ISBN);
         Book book = bookMapper.selectOne(l);
         Response res = new Response(false, Op.DELETE_BOOK);
 
@@ -418,7 +418,7 @@ public class Operation {
         LambdaQueryWrapper<Category> l1 = new LambdaQueryWrapper<>();
         LambdaQueryWrapper<Book> l2 = new LambdaQueryWrapper<>();
         l1.eq(Category::getName, category);
-        l2.eq(Book::getCategory, category);
+        l2.eq(Book::getBookCategoryName, category);
         if(categoryMapper.selectOne(l1) == null){ // category doesn't exist
             res.setMsg(Msg.Fail.NoCategory(category));
             return res;
@@ -436,17 +436,18 @@ public class Operation {
         return res;
     }
 
-    public static BookResponse getBookByName(String name){
+    public static BookResponse getBookByName(String name,String isbn,String author,int page,boolean ready){
         BookResponse res = new BookResponse(false, Op.GET_BOOK_NAME);
-        LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
-        l.like(Book::getName, name); // %category%, such as "ma -> math"
-
-        List<Book> bks = bookMapper.selectList(l);
+//        LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
+//        l.like(Book::getName, name); // %category%, such as "ma -> math"
+//        List<Book> bks = bookMapper.selectList(l);
+        List<Book> bks = bookMapper.bookList(new Page<>(page,5),name,isbn,author);
         res.setBooks(bks);
-
         if(bks.isEmpty()){
             res.setMsg(Msg.Fail.NoBookName(name));
         }else{
+            res.setPageNum(page);
+            res.setNumEachPage(5);
             res.setStatus(true);
             res.setMsg(Msg.Success.GetBook());
         }
@@ -457,14 +458,14 @@ public class Operation {
 //        System.out.println(newBook.toString());
         Response res = new Response(false, Op.UPDATE_BOOK);
         LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
-        l.eq(Book::getISBN, newBook.getISBN());
+        l.eq(Book::getBookIsbn, newBook.getBookIsbn());
         Book book = bookMapper.selectOne(l);
         if(book == null){ // Book doesn't exist.
-            res.setMsg(Msg.Fail.BookNotExist(newBook.getISBN()));
+            res.setMsg(Msg.Fail.BookNotExist(newBook.getBookIsbn()));
             return res;
         }
         LambdaUpdateWrapper<Book> luw = new LambdaUpdateWrapper<>();
-        luw.eq(Book::getISBN, newBook.getISBN());
+        luw.eq(Book::getBookIsbn, newBook.getBookIsbn());
         bookMapper.update(newBook, luw);
         res.setStatus(true);
         res.setMsg(Msg.Success.UpdateBook());
@@ -506,7 +507,7 @@ public class Operation {
         if(book == null)
             response.setMsg(Msg.Fail.noBookName(name));
         else{
-            if(book.getStock() <= 0)
+            if(book.getBookStock() <= 0)
                 response.setMsg(Msg.Fail.noBookStock(name));
             else if(book.beBorrowed()){
 //                 String now = sdf.format(dates[0]);
@@ -515,7 +516,7 @@ public class Operation {
                  String now = sdf.format(new Date());
                  int duration = dates;
                  //int len = borrowMapper.selectCount(new Borrow());
-                 Borrow borrow = new Borrow(now, book.getId(),duration, false, 0.0F, userName);
+                 Borrow borrow = new Borrow(now, book.getBookId(),duration, false, 0.0F, userName);
                  borrowMapper.insert(borrow);
                  bookMapper.updateById(book);
                  response.setStatus(true);
@@ -543,7 +544,7 @@ public class Operation {
 
         if(borrow == null){ // Borrow record does not exist.
             res.setMsg(Msg.Fail.BorrowNotExist(borrowId));
-        }else if(book.getId() != borrow.getBookId()){ // Book id and borrow id does not match each other.
+        }else if(book.getBookId() != borrow.getBookId()){ // Book id and borrow id does not match each other.
             res.setMsg(Msg.Fail.BookUnMatchBorrow());
         }else if(!account.equals(borrow.getAccount())){ // Account unmatched.
             res.setMsg(Msg.Fail.NotYourBorrow());

@@ -175,5 +175,8 @@ public class Msg {
         public static Message noBorrowBookId(){
             return new Message("026","No this borrow book detail");
         }
+        public static Message noISBN(){
+            return new Message("027","No this ISBN");
+        }
     }
 }

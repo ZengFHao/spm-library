@@ -353,7 +353,7 @@ public class Operation {
         LambdaQueryWrapper<Book> l = new LambdaQueryWrapper<>();
         l.eq(Book::getBookIsbn, ISBN);
 
-        if(null != bookMapper.selectList(l)){ // if not null, means book has existed.
+        if(null != bookMapper.selectOne(l)){ // if not null, means book has existed.
             res.setMsg(Msg.Fail.BookExisted(ISBN));
             return res;
         }
@@ -598,6 +598,16 @@ public class Operation {
         }
         return list;
     }
+//    public static Map<String,Object> jToV(String josn){
+//        JSONParser jsonParser = new JSONParser(josn);
+//        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+//        try {
+//            map = jsonParser.parseObject();
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return map;
+//    }
 
     /**
      * 解析token获取用户信息
